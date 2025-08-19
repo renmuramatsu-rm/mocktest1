@@ -1,47 +1,42 @@
-【環境構築】
-1. Dockerビルド
+【環境構築】（mocktest2 -> protest）
+１．Dockerビルド ① git clone git@github.com:renmuramatsu-rm/mocktest2.git ② DockerDesktopアプリを立ち上げる ③ docker-compose up -d --build##
 
-① git clone git@github.com:estra-inc/confirmation-test-contact-form.git
-② DockerDesktopアプリを立ち上げる
-③ docker-compose up -d --build## 
+２．Laravel環境構築 ① docker-compose exec php bash ② composer install ③「.env.example」ファイルを 「.env」ファイルに命名を変更。または、新しく.envファイルを作成 ④ .envに以下の環境変数を追加
 
-2. Laravel環境構築
-
-① docker-compose exec php bash
-② composer install
-③「.env.example」ファイルを 「.env」ファイルに命名を変更。または、新しく.envファイルを作成
-④ .envに以下の環境変数を追加
-
- DB_CONNECTION=mysql
- DB_HOST=mysql
- DB_PORT=3306
- DB_DATABASE=laravel_db
- DB_USERNAME=laravel_user
- DB_PASSWORD=laravel_pass
+DB_CONNECTION=mysql DB_HOST=mysql DB_PORT=3306 DB_DATABASE=laravel_db DB_USERNAME=laravel_user DB_PASSWORD=laravel_pass
 
 ④ アプリケーションキーの作成
 
- php artisan key:generate
+php artisan key:generate
 
 ⑤ マイグレーションの実行
 
- php artisan migrate
-⑥ シーディングの実行
+php artisan migrate ⑥ シーディングの実行
 
- php artisan db:seed
+php artisan db:seed
 
-3. 主要技術
+３．主要技術 言語・フレームワーク　　 　 MySQL：10.11.6 　php：8.4.2 　Laravel：11.44.2 　Docker：27.4.0 　PHPunit：11.5.12 mailtrap
 
- 言語・フレームワーク　　
-　 MySQL：10.11.6 
- 　php：8.4.2 
- 　Laravel：11.44.2 
- 　Docker：27.4.0 
- 　PHPunit：11.5.12 
+４．メール認証 mailtrapというツールを使用しています。 以下のリンクから会員登録をしてください。　 https://mailtrap.io/
 
-【ER図】
+メールボックスのIntegrationsから 「laravel 9+」を選択し、　 .envファイルのMAIL_MAILERからMAIL_ENCRYPTIONまでの項目をコピー＆ペーストしてください。　 MAIL_FROM_ADDRESSは任意のメールアドレスを入力してください。
 
-![image](https://github.com/user-attachments/assets/a08ec5e0-718a-4ede-8721-fc8139616ca0)
+５．テスト用アカウント 【一般ユーザ】 name : test email : test@gmail password: password
+
+name : test2 email : test2@gmail password: password
+
+name : test3 email : test3@gmail password: password
+
+６．PHPUnitを使用したテスト //テスト用データベースの作成 docker-compose exec mysql bash mysql -u root -p //パスワードはrootと入力 create database test_database;
+
+docker-compose exec php bash php artisan migrate:fresh --env=testing ./vendor/bin/phpunit
+
+７．URL 開発環境：http://localhost/ phpMyAdmin:：http://localhost:8080/
+
+８．ER図
+
+<img width="1097" height="574" alt="image" src="https://github.com/user-attachments/assets/29c2ff19-fc29-4eae-9221-d95c2e8c82f6" />
+
 
 
 

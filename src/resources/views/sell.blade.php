@@ -16,8 +16,14 @@
                 <span class="sell-form__content-title">商品画像</span>
             </div>
             <div class="sell-form__content-item">
+                <div class="sell__img">
+                    <img class="appload__img" id="myImage">
+                </div>
                 <div class="sell-form__input-img">
-                    <input type="file" name="image" accept="image/png,image/jpeg" />
+                    <label for="target" class="select-img">
+                        画像を選択する
+                        <input id="target" type="file" name="image" class="hidden" accept="image/png,image/jpeg" />
+                    </label>
                 </div>
                 <div class="form__error">
                     @error('image')
@@ -118,7 +124,19 @@
             </div>
         </div>
     </form>
-
+    <script>
+        const target = document.getElementById('target');
+        const e = document.getElementById('appload');
+        target.addEventListener('change', function(e) {
+            const file = e.target.files[0]
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById("myImage")
+                img.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }, false);
+    </script>
 </div>
 
 @endsection

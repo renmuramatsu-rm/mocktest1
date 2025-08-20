@@ -16,11 +16,16 @@
             <div class="form__group-content">
                 <div class="form__group-user">
                     <div class=" mypage-profile__content-item">
-                        <img class="mypage-profile__img" src="{{ asset('storage/' . ($profile->image ?? 'profiles/noimage.jpg')) }}">
+                        @if (isset($profile->image))
+                        <img class="mypage-profile__img" src="{{ asset('storage/' . ($profile->image)) }}" alt="">
+                        @else
+                        <img id="myImage" class="mypage-profile__img" src="{{ asset('img/noimage.jpg') }}" alt="">
+                        @endif
                     </div>
                     <div class="form__input-text">
-                        <label for="upload" class="select-img">画像を選択する
-                            <input type="file" id="upload" name="image" accept="image/png,image/jpeg" class="hidden"></label>
+                        <label for="target" class="select-img">画像を選択する
+                            <input id="target" type="file" name="image" accept="image/png,image/jpeg" class="hidden">
+                        </label>
                     </div>
                 </div>
                 <div class="form__error">
@@ -94,6 +99,20 @@
             <button class="form__button-submit" type="submit">更新する</button>
         </div>
     </form>
+    <script>
+        const target = document.getElementById('target');
+        target.addEventListener('change', function(e) {
+            const file = e.target.files[0]
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById("myImage");
+                console.log(img.src);
+                img.src = e.target.result;
+                console.log(img.src);
+            }
+            reader.readAsDataURL(file);
+        }, false);
+    </script>
 
 </div>
 

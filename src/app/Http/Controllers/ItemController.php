@@ -59,6 +59,7 @@ class ItemController extends Controller
         $soldItem   = SoldItem::where('item_id', ($item_id))->first();
         if ($item->sold() && $item->sold_item->status == 'progress') {
             if ($item->sold_item->buyer_id == $user->id) {
+                $seller = User::where('id', $soldItem->seller_id)->first();
                 $otherItems = SoldItem::with('item')
                     ->where('buyer_id', $user->id)
                     ->where('status', 'progress')
@@ -71,7 +72,7 @@ class ItemController extends Controller
                 if (!$resetMessageCount == 0) {
                     $resetMessageCount->update(['message_count' => 0]);
                 }
-                return view('purchaseChat', compact('user', 'item', 'otherItems', 'messages'));
+                return view('purchaseChat', compact('user', 'item', 'otherItems', 'messages', 'seller'));
             } elseif ($item->sold_item->seller_id == $user->id) {
                 $buyer = User::where('id', $soldItem->buyer_id)->first();
                 $otherItems = SoldItem::with('item')
@@ -97,7 +98,7 @@ class ItemController extends Controller
             if (!$resetMessageCount == 0) {
                 $resetMessageCount->update(['message_count' => 0]);
             }
-            return view('sellChat', compact('user', 'item', 'buyer','otherItems', 'messages'));
+            return view('sellChat', compact('user', 'item', 'buyer', 'otherItems', 'messages'));
         }
         return view('show', compact('item'));
     }

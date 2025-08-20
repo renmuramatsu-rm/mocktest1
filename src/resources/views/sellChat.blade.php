@@ -25,7 +25,11 @@
         <div class="article-title">
             <div class="title-item">
                 <div class="title-img">
-                    <img class="title-user__img" src="{{ asset('storage/' . ($profile->image ?? 'profiles/noimage.jpg')) }}">
+                    @if (isset($buyer->profile->image))
+                    <img class="mypage-profile__img" src="{{ asset('storage/' . ($buyer->profile->image)) }}">
+                    @else
+                    <img class="mypage-profile__img" src="{{ asset('img/noimage.jpg') }}" alt="">
+                    @endif
                 </div>
                 <div class="title-text">
                     <p>
@@ -58,7 +62,11 @@
                     </div>
                     <div class="chat-img">
                         <label for="user_name">
-                            <img class="chat-user__img" src="{{ asset('storage/' . ($profile->image ?? 'profiles/noimage.jpg')) }}">
+                            @if (isset($user->profile->image))
+                            <img class="mypage-profile__img" src="{{ asset('storage/' . ($user->profile->image)) }}">
+                            @else
+                            <img class="mypage-profile__img" src="{{ asset('img/noimage.jpg') }}" alt="">
+                            @endif
                         </label>
                     </div>
                 </div>
@@ -96,7 +104,11 @@
                 <div class="chat-item">
                     <div class="chat-img">
                         <label for="user_name">
-                            <img class="chat-user__img" src="{{ asset('storage/' . ($profile->image ?? 'profiles/noimage.jpg')) }}">
+                            @if (isset($buyer->profile->image))
+                            <img class="mypage-profile__img" src="{{ asset('storage/' . ($buyer->profile->image)) }}">
+                            @else
+                            <img class="mypage-profile__img" src="{{ asset('img/noimage.jpg') }}" alt="">
+                            @endif
                         </label>
                     </div>
                     <div class="chat-user__name">
@@ -134,7 +146,7 @@
                     <input class="chat-input__img" type="file" name="img_url" accept="image/png, image/jpeg">
                 </label>
                 <button type=" submit" class="chat-send__btn">
-                    <img src="{{ asset('storage/inputButton1.png') }}" alt="送信" class="chat-send__img">
+                    <img src="{{ asset('img/inputButton1.png') }}" alt="送信" class="chat-send__img">
                 </button>
             </form>
         </div>

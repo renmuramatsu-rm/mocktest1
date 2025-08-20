@@ -1,5 +1,5 @@
 【環境構築】（mocktest2 -> protest）
-１．Dockerビルド ① git clone git@github.com:renmuramatsu-rm/mocktest2.git ② DockerDesktopアプリを立ち上げる ③ docker-compose up -d --build##
+１．Dockerビルド ① git clone git@github.com:renmuramatsu-rm/mocktest1.git ② DockerDesktopアプリを立ち上げる ③ docker-compose up -d --build##
 
 ２．Laravel環境構築 ① docker-compose exec php bash ② composer install ③「.env.example」ファイルを 「.env」ファイルに命名を変更。または、新しく.envファイルを作成 ④ .envに以下の環境変数を追加
 

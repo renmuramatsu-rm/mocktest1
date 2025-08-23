@@ -68,11 +68,12 @@ class ItemController extends Controller
                     ->orderBy('messages_max_updated_at', 'desc')
                     ->get();
                 $messages = Message::where('sold_item_id', $soldItem->id)->get();
+                $draftKey = "chat:draft:{$user->id}:{$item->id}";
                 $resetMessageCount = MessageRelation::where('destination_user_id', $user->id)->where('sold_item_id', $item->sold_item->id)->first();
                 if (!$resetMessageCount == 0) {
                     $resetMessageCount->update(['message_count' => 0]);
                 }
-                return view('purchaseChat', compact('user', 'item', 'otherItems', 'messages', 'seller', 'soldItem'));
+                return view('purchaseChat', compact('user', 'item', 'otherItems', 'messages', 'seller', 'soldItem', 'draftKey'));
             } elseif ($item->sold_item->seller_id == $user->id) {
                 $buyer = User::where('id', $soldItem->buyer_id)->first();
                 $otherItems = SoldItem::with('item')
@@ -83,11 +84,12 @@ class ItemController extends Controller
                     ->orderBy('messages_max_updated_at', 'desc')
                     ->get();
                 $messages = Message::where('sold_item_id', $soldItem->id)->get();
+                $draftKey = "chat:draft:{$user->id}:{$item->id}";
                 $resetMessageCount = MessageRelation::where('destination_user_id', $user->id)->where('sold_item_id', $item->sold_item->id)->first();
                 if (!$resetMessageCount == 0) {
                     $resetMessageCount->update(['message_count' => 0]);
                 }
-                return view('sellChat', compact('user', 'buyer', 'item', 'otherItems', 'messages'));
+                return view('sellChat', compact('user', 'buyer', 'item', 'otherItems', 'messages', 'draftKey'));
             }
         }
         if ($item->sold() && $item->sold_item->status == 'purchase_completed' && $item->sold_item->seller_id == $user->id) {

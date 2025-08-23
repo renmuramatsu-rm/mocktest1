@@ -152,19 +152,23 @@
                 <label class="message-input">
                     <input class="chat-input__text" name="text" placeholder="取引メッセージを記入してください" value="{{ old('text') }}" id="draft">
                 </label>
+
                 <script>
                     document.addEventListener("DOMContentLoaded", () => {
                         const input = document.getElementById("draft");
                         if (!input) return;
-                        const saved = localStorage.getItem("draft");
+
+                        const key = @json($draftKey);
+
+                        const saved = localStorage.getItem(key);
                         if (saved && !input.value) {
                             input.value = saved;
                         }
                         input.addEventListener("input", () => {
-                            localStorage.setItem("draft", input.value);
+                            localStorage.setItem(key, input.value);
                         });
                         input.form?.addEventListener("submit", () => {
-                            localStorage.removeItem("draft");
+                            localStorage.removeItem(key);
                         });
                     });
                 </script>

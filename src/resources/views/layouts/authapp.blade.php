@@ -17,7 +17,7 @@
     <header class="header">
         <div class="header__inner">
             <a class="header__logo" href="/">
-                <img src="{{ asset('storage/coachtech.svg') }}" alt="coachtech" class="coachtech__img">
+                <img src="{{ asset('img/coachtech.svg') }}" alt="coachtech" class="coachtech__img">
             </a>
         </div>
     </header>

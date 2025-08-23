@@ -1,15 +1,25 @@
-.header{
-    background: #000;
+header {
+    align-items: center;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    font-size: 16px;
+    justify-content: space-between;
+    height: 60px;
+    padding: 0 30px;
+    position: sticky;
+    z-index: var(--mer-z-index-navigation-top);
+    top: 0px;
 }
 
-.header__inner {
-    margin: 0 auto;
-    padding: 20px 15px;
-    max-width: 1230px;
-}
 .header__logo {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 24px;
+    width: 250px;
+    height: fit-content;
+    vertical-align: middle;
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+    .header__logo {
+        width: 25vw;
+    }
 }

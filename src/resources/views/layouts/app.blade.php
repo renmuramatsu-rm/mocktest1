@@ -15,43 +15,35 @@
 
 <body>
     <header class="header">
-        <div class="header__inner">
-            <div class="header-utilities">
-                <a class="header__logo" href="/">
-                    <img src="{{ asset('storage/coachtech.svg') }}" alt="coachtech" class="coachtech__img">
-                </a>
-                <div class="header-search">
-                    <form action="/" method="get">
-                        <input type="text" name="search" value="" placeholder="なにをお探しですか？">
-                    </form>
-                </div>
-                <nav>
-                    <ul class="header-nav">
-                        @if (Auth::check())
-                        <li class="header-nav__item">
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="header-nav__button-logout">ログアウト</button>
-                            </form>
-                        </li>
-                        @else
-                        <li class="header-nav__item">
-                            <a href="{{ route('login') }}" class="header-nav__button-login">ログイン</a>
-                        </li>
-                        @endif
-                        <li class="header-nav__item">
-                            <a href="{{ route('mypage') }}" class=" header-nav__button-mypage">マイページ</a>
-                        </li>
-                        <li class=" header-nav__item">
-                            <form action="/sell" method="get">
-                                @csrf
-                                <button class="header-nav__button-sell" type="submit">出品</button>
-                            </form>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+        <div class="header__logo">
+            <a href="/"><img src="{{ asset('img/coachtech.svg') }}" alt="coachtech" class="coachtech__img"></a>
         </div>
+        <form class="header_search" action="/" method="get">
+            @csrf
+            <input type="text" name="search" value="" placeholder="なにをお探しですか？">
+            <button id="buttonElement" class="header_search--button">
+                <img src="{{ asset('img/search_icon.jpeg') }}" alt="検索アイコン" style="height:100%;">
+            </button>
+        </form>
+        <nav class="header__nav">
+            <ul>
+                @if(Auth::check())
+                <li>
+                    <form action="/logout" method="post">
+                        @csrf
+                        <button class="header__logout">ログアウト</button>
+                    </form>
+                </li>
+                <li><a href="/mypage">マイページ</a></li>
+                @else
+                <li><a href="/login">ログイン</a></li>
+                <li><a href="/register">会員登録</a></li>
+                @endif
+                <a href="/sell">
+                    <li class="header__btn">出品</li>
+                </a>
+            </ul>
+        </nav>
     </header>
 
     <main>

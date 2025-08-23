@@ -89,4 +89,5 @@ class ChatController extends Controller
         Message::find($request->id)->delete();
         return redirect()->back();
     }
+
 }

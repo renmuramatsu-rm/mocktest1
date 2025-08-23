@@ -72,7 +72,7 @@ class ItemController extends Controller
                 if (!$resetMessageCount == 0) {
                     $resetMessageCount->update(['message_count' => 0]);
                 }
-                return view('purchaseChat', compact('user', 'item', 'otherItems', 'messages', 'seller'));
+                return view('purchaseChat', compact('user', 'item', 'otherItems', 'messages', 'seller', 'soldItem'));
             } elseif ($item->sold_item->seller_id == $user->id) {
                 $buyer = User::where('id', $soldItem->buyer_id)->first();
                 $otherItems = SoldItem::with('item')
@@ -92,7 +92,13 @@ class ItemController extends Controller
         }
         if ($item->sold() && $item->sold_item->status == 'purchase_completed' && $item->sold_item->seller_id == $user->id) {
             $buyer = User::where('id', $soldItem->buyer_id)->first();
-            $otherItems = SoldItem::where('seller_id', $user->id)->where('status', 'progress')->where('item_id', '<>', $item_id)->leftJoin('messages', 'sold_items.id', '=', 'sold_item_id')->orderBy('messages.updated_at', 'desc')->get();
+            $otherItems = SoldItem::with('item')
+                ->where('seller_id', $user->id)
+                ->where('status', 'progress')
+                ->where('item_id', '<>', $item_id)
+                ->withMax('messages', 'updated_at')
+                ->orderBy('messages_max_updated_at', 'desc')
+                ->get();
             $messages = Message::where('sold_item_id', $soldItem->id)->get();
             $resetMessageCount = MessageRelation::where('destination_user_id', $user->id)->where('sold_item_id', $item->sold_item->id)->first();
             if (!$resetMessageCount == 0) {
@@ -125,9 +131,10 @@ class ItemController extends Controller
         } elseif ($tab == 'progress') {
             $items = SoldItem::with('item')->where(function ($query) use ($user) {
                 $query->where('buyer_id', $user->id)->orWhere('seller_id', $user->id);
-            })->whereIn('status', ['progress', 'purchase_completed'])->get()->map(function ($sold_item) {
+            })->whereIn('status', ['progress'])->withMax('messages', 'updated_at')->orderBy('messages_max_updated_at', 'desc')->get()->map(function ($sold_item) {
                 return $sold_item->item;
             });
+
         } else {
             $items = Item::where('user_id', $user->id)->get();
         }
@@ -213,4 +220,5 @@ class ItemController extends Controller
 
         return redirect('/');
     }
+
 }

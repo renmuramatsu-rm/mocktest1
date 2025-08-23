@@ -9,7 +9,11 @@
     <div class="mypage-profile__content">
         <div class="mypage-profile__user">
             <div class="mypage-profile__user-img">
-                <img class="mypage-profile__img" src="{{ asset('storage/' . ($profile->image ?? 'profiles/noimage.jpg')) }}">
+                @if (isset($user->profile->image))
+                <img class="mypage-profile__img" src="{{ asset('storage/' . ($profile->image)) }}">
+                @else
+                <img class="mypage-profile__img" src="{{ asset('img/noimage.jpg') }}" alt="">
+                @endif
             </div>
 
             <div class="modal-form__review">

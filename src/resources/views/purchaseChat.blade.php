@@ -150,9 +150,26 @@
             <form class="chat-form" action="{{ route('chat.store', $item->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <label class="message-input">
-                    <input class="chat-input__text" name="text" placeholder="取引メッセージを記入してください">
+                    <input class="chat-input__text" name="text" placeholder="取引メッセージを記入してください" value="{{ old('text') }}" id="draft">
                 </label>
-                <label class="chat-img__btn">
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const input = document.getElementById("draft");
+                        if (!input) return;
+                        const saved = localStorage.getItem("draft");
+                        if (saved && !input.value) {
+                            input.value = saved;
+                        }
+                        input.addEventListener("input", () => {
+                            localStorage.setItem("draft", input.value);
+                        });
+                        input.form?.addEventListener("submit", () => {
+                            localStorage.removeItem("draft");
+                        });
+                    });
+                </script>
+
+                <label class=" chat-img__btn">
                     画像を追加
                     <input class="chat-input__img" type="file" name="img_url" accept="image/png, image/jpeg">
                 </label>
